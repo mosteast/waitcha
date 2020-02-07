@@ -33,6 +33,7 @@ export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Pro
   } catch (e) {
     await delay(state?.interval)
     await waiter(fn, state)
+    return
   }
 
   print_success('Wait fulfilled.')
