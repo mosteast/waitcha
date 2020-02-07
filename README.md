@@ -30,6 +30,7 @@ USAGE
 <!-- commands -->
 * [`waitcha cmd <COMMAND>`](#waitcha-cmd-command)
 * [`waitcha help [COMMAND]`](#waitcha-help-command)
+* [`waitcha http [FILE]`](#waitcha-http-file)
 
 ## `waitcha cmd <COMMAND>`
 
@@ -65,4 +66,20 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
+
+## `waitcha http [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ waitcha http [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/http.ts](https://github.com/mosteast/waitcha/blob/v0.1.0/src/commands/http.ts)_
 <!-- commandsstop -->
