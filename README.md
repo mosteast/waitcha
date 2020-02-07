@@ -19,7 +19,7 @@ $ npm install -g waitcha
 $ waitcha COMMAND
 running command...
 $ waitcha (-v|--version|version)
-waitcha/0.1.1 darwin-x64 node-v12.14.0
+waitcha/0.1.2 darwin-x64 node-v12.14.0
 $ waitcha --help [COMMAND]
 USAGE
   $ waitcha COMMAND
@@ -31,7 +31,6 @@ USAGE
 * [`waitcha cmd COMMAND`](#waitcha-cmd-command)
 * [`waitcha help [COMMAND]`](#waitcha-help-command)
 * [`waitcha http URL`](#waitcha-http-url)
-* [`waitcha ping [FILE]`](#waitcha-ping-file)
 
 ## `waitcha cmd COMMAND`
 
@@ -53,7 +52,7 @@ OPTIONS
   --stdio                    Whether to print std output or accept input
 ```
 
-_See code: [src/commands/cmd.ts](https://github.com/mosteast/waitcha/blob/v0.1.1/src/commands/cmd.ts)_
+_See code: [src/commands/cmd.ts](https://github.com/mosteast/waitcha/blob/v0.1.2/src/commands/cmd.ts)_
 
 ## `waitcha help [COMMAND]`
 
@@ -113,21 +112,5 @@ OPTIONS
   --text_match=text_match              Match body text with regular express: ".+google.+"
 ```
 
-_See code: [src/commands/http.ts](https://github.com/mosteast/waitcha/blob/v0.1.1/src/commands/http.ts)_
-
-## `waitcha ping [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ waitcha ping [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-```
-
-_See code: [src/commands/ping.ts](https://github.com/mosteast/waitcha/blob/v0.1.1/src/commands/ping.ts)_
+_See code: [src/commands/http.ts](https://github.com/mosteast/waitcha/blob/v0.1.2/src/commands/http.ts)_
 <!-- commandsstop -->
