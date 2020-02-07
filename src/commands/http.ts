@@ -94,138 +94,145 @@ export default class Http extends Base {
 
     const r = await waiter(async () => {
       return new Promise<void>(async (resolve, reject) => {
-        const res = await fetch(url).catch()
-        let ok = res.ok
-        const text = await res.text()
-        const range = flags.debug_text_range?.split(':').map(it => parseInt(it))
-        const headers = res.headers
-        let json
-        try {json = JSON.parse(text)} catch (e) {}
-
-        if (ok && flags.text_exist) {
-          only_false(!!text.length)
-          if (!flags.mute && !ok) {
-            print_verbose(`text body not exists`)
-          }
-        }
-
-        if (ok && flags.text_match) {
-          for (let it of flags.text_match) {
-            const reg = new RegExp(it)
-            only_false(reg.test(text))
-            if (!flags.mute && !ok) {
-              print_verbose(`text not matches, text:\n${ text.substring(range[0], range[1]) }...`)
-            }
-          }
-        }
-
-        if (ok && flags.text_is) {
-          for (let it of flags.text_is) {
-            only_false(text === it)
-            if (!flags.mute && !ok) {
-              print_verbose(`text comparison failed, text:\n${ text.substring(range[0], range[1]) }...`)
-            }
-          }
-        }
-
-        if (ok && flags.header_exist) {
-          for (let it of flags.header_exist) {
-            only_false(headers.has(it))
-            if (!flags.mute && !ok) {
-              print_verbose(`headers not exist, header:`)
-              print_verbose(it)
-            }
-          }
-        }
-
-        if (ok && flags.header_is) {
-          for (let it of flags.header_is) {
-            const { key, value } = parse_colon_pair(it)
-            const actual_value = '' + headers.get(key)
-            only_false(actual_value === value)
-            if (!flags.mute && !ok) {
-              print_verbose(`header comparison failed, header field:`)
-              print_verbose(`${ key }: ${ actual_value } (Input: "${ value }")`)
-            }
-          }
-        }
-
-        if (ok && flags.header_match) {
-          for (let it of flags.header_match) {
-            const { key, value } = parse_colon_pair(it)
-            const actual_value = '' + headers.get(key)
-            const regex = new RegExp(value)
-            only_false(regex.test(actual_value))
-            if (!flags.mute && !ok) {
-              print_verbose(`header matching failed, header field:`)
-              print_verbose(`${ key }: ${ actual_value } (RegExp: "${ value }")`)
-            }
-          }
-        }
-
-        if (ok && (flags.json_is || flags.json_exist)) {
-          if (!json) {
-            print_verbose('Response body is not JSON format.')
-            return
-          }
-
-          const list = flags.json_is || flags.json_exist
-
-          for (let it of list) {
-            const pair = parse_colon_pair(it)
-            const path = pair.key
-            const value = pair.value
-
-            const actual_raw = get(json, path)
-
-            if (flags.json_exist) {
-              only_false(actual_raw !== undefined)
-              if (!flags.mute && !ok) {
-                print_verbose(`json field not exists, json field:`)
-                print_verbose(`${ path }:${ actual_raw }`)
-              }
-            } else if (flags.json_is) {
-              const actual_str = '' + actual_raw
-              only_false(value === actual_str)
-              if (!flags.mute && !ok) {
-                print_verbose(`JSON field comparison failed, JSON field:`)
-                print_verbose(`${ path }:${ actual_str } (Input: "${ value }")`)
-              }
-            }
-          }
-        }
-
-        if (ok && flags.json_match) {
-
-          if (!json) {
-            print_verbose('Response body is not JSON format.')
-            return
-          }
-
-          for (let it of flags.json_match) {
-            const pair = parse_colon_pair(it)
-            const path = pair.key
-            const reg_str = pair.value
-
-            const regex = new RegExp(reg_str)
-            const actual = '' + get(json, path)
-            only_false(regex.test(get(json, path)))
-            if (!flags.mute && !ok) {
-              print_verbose(`json matching failed, json field:`)
-              print_verbose(`${ path }:${ actual } (RegExp: "${ reg_str }")`)
-            }
-          }
-        }
-
-        ok ? resolve() : reject()
-
-        /**
-         * Only set false to ok
-         */
-        function only_false(bool: boolean) {
-          if (bool) {return bool}
-
+        let res, ok = true
+        try {
+          res = await fetch(url)
+        } catch (e) {
           ok = false
+        }
+        if (ok) {
+          ok = res.ok
+          const text = await res.text()
+          const range = flags.debug_text_range?.split(':').map(it => parseInt(it))
+          const headers = res.headers
+          let json
+          try {json = JSON.parse(text)} catch (e) {}
+
+          if (ok && flags.text_exist) {
+            only_false(!!text.length)
+            if (!flags.mute && !ok) {
+              print_verbose(`text body not exists`)
+            }
+          }
+
+          if (ok && flags.text_match) {
+            for (let it of flags.text_match) {
+              const reg = new RegExp(it)
+              only_false(reg.test(text))
+              if (!flags.mute && !ok) {
+                print_verbose(`text not matches, text:\n${ text.substring(range[0], range[1]) }...`)
+              }
+            }
+          }
+
+          if (ok && flags.text_is) {
+            for (let it of flags.text_is) {
+              only_false(text === it)
+              if (!flags.mute && !ok) {
+                print_verbose(`text comparison failed, text:\n${ text.substring(range[0], range[1]) }...`)
+              }
+            }
+          }
+
+          if (ok && flags.header_exist) {
+            for (let it of flags.header_exist) {
+              only_false(headers.has(it))
+              if (!flags.mute && !ok) {
+                print_verbose(`headers not exist, header:`)
+                print_verbose(it)
+              }
+            }
+          }
+
+          if (ok && flags.header_is) {
+            for (let it of flags.header_is) {
+              const { key, value } = parse_colon_pair(it)
+              const actual_value = '' + headers.get(key)
+              only_false(actual_value === value)
+              if (!flags.mute && !ok) {
+                print_verbose(`header comparison failed, header field:`)
+                print_verbose(`${ key }: ${ actual_value } (Input: "${ value }")`)
+              }
+            }
+          }
+
+          if (ok && flags.header_match) {
+            for (let it of flags.header_match) {
+              const { key, value } = parse_colon_pair(it)
+              const actual_value = '' + headers.get(key)
+              const regex = new RegExp(value)
+              only_false(regex.test(actual_value))
+              if (!flags.mute && !ok) {
+                print_verbose(`header matching failed, header field:`)
+                print_verbose(`${ key }: ${ actual_value } (RegExp: "${ value }")`)
+              }
+            }
+          }
+
+          if (ok && (flags.json_is || flags.json_exist)) {
+            if (!json) {
+              print_verbose('Response body is not JSON format.')
+              return
+            }
+
+            const list = flags.json_is || flags.json_exist
+
+            for (let it of list) {
+              const pair = parse_colon_pair(it)
+              const path = pair.key
+              const value = pair.value
+
+              const actual_raw = get(json, path)
+
+              if (flags.json_exist) {
+                only_false(actual_raw !== undefined)
+                if (!flags.mute && !ok) {
+                  print_verbose(`json field not exists, json field:`)
+                  print_verbose(`${ path }:${ actual_raw }`)
+                }
+              } else if (flags.json_is) {
+                const actual_str = '' + actual_raw
+                only_false(value === actual_str)
+                if (!flags.mute && !ok) {
+                  print_verbose(`JSON field comparison failed, JSON field:`)
+                  print_verbose(`${ path }:${ actual_str } (Input: "${ value }")`)
+                }
+              }
+            }
+          }
+
+          if (ok && flags.json_match) {
+
+            if (!json) {
+              print_verbose('Response body is not JSON format.')
+              return
+            }
+
+            for (let it of flags.json_match) {
+              const pair = parse_colon_pair(it)
+              const path = pair.key
+              const reg_str = pair.value
+
+              const regex = new RegExp(reg_str)
+              const actual = '' + get(json, path)
+              only_false(regex.test(get(json, path)))
+              if (!flags.mute && !ok) {
+                print_verbose(`json matching failed, json field:`)
+                print_verbose(`${ path }:${ actual } (RegExp: "${ reg_str }")`)
+              }
+            }
+          }
+
+          ok ? resolve() : reject()
+
+          /**
+           * Only set false to ok
+           */
+          function only_false(bool: boolean) {
+            if (bool) {return bool}
+
+            ok = false
+          }
         }
       })
 
