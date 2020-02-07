@@ -37,7 +37,7 @@ export default class Cmd extends Base {
     const cmd = args.command
     this.prepare_opts()
 
-    const r = await waiter(async () => {
+    await waiter(async () => {
       const r2 = await command(cmd, this.opt_command, this.opt_spawn)
       if (r2.code) {
         throw new Error()
@@ -45,8 +45,6 @@ export default class Cmd extends Base {
         return true
       }
     }, this.state_waiter)
-
-    const code = r ? 0 : 1
-    this.exit(code)
+      .catch(e => process.exit(1))
   }
 }

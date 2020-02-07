@@ -92,7 +92,7 @@ export default class Http extends Base {
     const url = args.url
     this.prepare_opts()
 
-    waiter(async () => {
+    await waiter(async () => {
       return new Promise<void>(async (resolve, reject) => {
         let res, ok = true
         res = await fetch(url).catch(e => {
