@@ -28,24 +28,28 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`waitcha cmd <COMMAND>`](#waitcha-cmd-command)
+* [`waitcha cmd COMMAND`](#waitcha-cmd-command)
 * [`waitcha help [COMMAND]`](#waitcha-help-command)
-* [`waitcha http [FILE]`](#waitcha-http-file)
+* [`waitcha http URL`](#waitcha-http-url)
 
-## `waitcha cmd <COMMAND>`
+## `waitcha cmd COMMAND`
 
 wait for a command to fulfill
 
 ```
 USAGE
-  $ waitcha cmd <COMMAND>
-  $ waitcha cmd <COMMAND> [OPTIONS]
+  $ waitcha cmd COMMAND
+
+ARGUMENTS
+  COMMAND  Command to wait (retry to run)
 
 OPTIONS
   -h, --help                 show CLI help
   -i, --interval=interval    [default: 1000] Retry interval in milliseconds
-  -m, --max_retry=max_retry  [default: 12] Max retry limit.
-  -n, --name=name            name to print
+  -r, --max_retry=max_retry  [default: 12] Max retry limit
+  --forever                  Wait forever (without max_retry limit)
+  --mute                     Whether to print wait information
+  --stdio                    Whether to print std output or accept input
 ```
 
 _See code: [src/commands/cmd.ts](https://github.com/mosteast/waitcha/blob/v0.1.0/src/commands/cmd.ts)_
@@ -67,18 +71,45 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
 
-## `waitcha http [FILE]`
+## `waitcha http URL`
 
-describe the command here
+wait for a http request to fulfill
 
 ```
 USAGE
-  $ waitcha http [FILE]
+  $ waitcha http URL
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -h, --help                           show CLI help
+  -i, --interval=interval              [default: 1000] Retry interval in milliseconds
+  -m, --method=method                  [default: get] Request method: get|post|option...
+  -r, --max_retry=max_retry            [default: 12] Max retry limit
+
+  --debug_text_range=debug_text_range  [default: 0:120] Body text length you want to print whenever retry fails:
+                                       --debug_text_range 0:120
+
+  --forever                            Wait forever (without max_retry limit)
+
+  --header_exist=header_exist          Check headers exist: content-type
+
+  --header_is=header_is                Header comparison: content-type:text/html
+
+  --header_match=header_match          Match header field with regular express: "content-length:d+"
+
+  --json_exist=json_exist              Check json fields exist: "a.b.c"|"a[1][2]"
+
+  --json_is=json_is                    Compare json using json path: "a.b.c:1"|"a[1].c:2"
+
+  --json_match=json_match              Match json field value with regular express (this option only applies to string
+                                       and number values): "a.b.name:Bob.+"|"a[1].c:d+"
+
+  --mute                               Whether to print wait information
+
+  --text_exist                         Check text body exists
+
+  --text_is=text_is                    Compare body text using `===`: "Hello world!"
+
+  --text_match=text_match              Match body text with regular express: ".+google.+"
 ```
 
 _See code: [src/commands/http.ts](https://github.com/mosteast/waitcha/blob/v0.1.0/src/commands/http.ts)_
