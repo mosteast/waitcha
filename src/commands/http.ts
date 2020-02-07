@@ -95,11 +95,10 @@ export default class Http extends Base {
     const r = await waiter(async () => {
       return new Promise<void>(async (resolve, reject) => {
         let res, ok = true
-        try {
-          res = await fetch(url)
-        } catch (e) {
+        res = await fetch(url).catch(e => {
           ok = false
-        }
+        })
+
         if (ok) {
           ok = res.ok
           const text = await res.text()
@@ -233,6 +232,8 @@ export default class Http extends Base {
 
             ok = false
           }
+        } else {
+          reject()
         }
       })
 
