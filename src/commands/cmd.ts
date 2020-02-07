@@ -1,6 +1,11 @@
 import { Command, flags } from '@oclif/command'
 import { command } from '@mosteast/command'
-import { print_error, print_verbose } from '../util/printer'
+import {
+  print_error,
+  print_info,
+  print_success,
+  print_verbose,
+} from '../util/printer'
 import * as Parser from '@oclif/parser'
 
 export default class Cmd extends Command {
@@ -50,6 +55,7 @@ export default class Cmd extends Command {
     let count = 0
 
     run()
+    print_info('Wait started.')
 
     async function run() {
 
@@ -65,6 +71,8 @@ export default class Cmd extends Command {
           await run()
           clearTimeout(timer)
         }, interval)
+      } else {
+        print_success('Wait fulfilled.')
       }
     }
   }
