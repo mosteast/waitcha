@@ -1,27 +1,47 @@
-import { print_error, print_success, print_verbose } from './printer'
+import {
+  print_error,
+  print_info,
+  print_success,
+  print_verbose,
+} from './printer'
 
-export async function waiter(fn: () => Promise<any>, state?: T_waiter_state) {
+export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Promise<boolean> {
   state = {
     count: 0,
     interval: 1000,
     max_retry: 12,
     mute: false,
+    forever: false,
     ...state,
+  }
+
+  if (state.count === 0) {
+    print_info('Wait started.')
   }
 
   state.count++
 
-  if (state.count > state.max_retry) {return print_error(`Wait failed after retried ${ state.max_retry } times.`)}
+  if (!state.forever && state.count > state.max_retry) {
+    print_error(`Wait failed after retried ${ state.max_retry } times.`)
+    return false
+  }
 
   if (state.count > 1 && !state.mute) {print_verbose(`Retry: ${ state.count }`)}
 
-  fn().then(r => {
-    print_success('Wait fulfilled.')
-  }).catch(e => {
-    const timer = setTimeout(async () => {
-      await waiter(fn, state)
-      clearTimeout(timer)
-    }, state?.interval)
+  try {
+    await fn()
+  } catch (e) {
+    await delay(state?.interval)
+    return await waiter(fn, state)
+  }
+
+  print_success('Wait fulfilled.')
+  return true
+}
+
+function delay(t: number, value?: any) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve.bind(null, value), t)
   })
 }
 
@@ -30,4 +50,6 @@ export interface T_waiter_state {
   max_retry: number,
   count: number,
   mute?: boolean
+  forever?: boolean
 }
+

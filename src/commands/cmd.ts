@@ -1,88 +1,52 @@
-import { Command, flags } from '@oclif/command'
-import { print_error, print_info } from '../util/printer'
+import { flags } from '@oclif/command'
 import * as Parser from '@oclif/parser'
-import { T_waiter_state, waiter } from '../util/waiter'
+import { waiter } from '../util/waiter'
 import { command } from '@mosteast/command'
+import { common_flag } from '../common/flag'
+import { Base } from '../common/base'
 
-export default class Cmd extends Command {
+export default class Cmd extends Base {
   static description = 'wait for a command to fulfill'
 
-  static usage = [
-    'cmd "ls test.log"',
-    'cmd "ls test.log" --interval 2000 --max_retry 10',
-    'cmd "ls test.log" -i 2000 -m 10',
-    'cmd "ls test.log" -i 2000',
-    'cmd "ls test.log" -i 2000 [&& ANOTHER_WAITCHA && ...]',
-  ]
+  // static usage = [
+  //   'cmd "ls test.log"',
+  //   'cmd "ls test.log" --interval 2000 --max_retry 10',
+  //   'cmd "ls test.log"  --interval 2000 2000',
+  //   'cmd "ls test.log" -i 2000 [&& ANOTHER_WAITCHA && ...]',
+  // ]
 
   static flags: flags.Input<any> = {
-    help: flags.help({ char: 'h' }),
-    // flag with a value (-n, --name=VALUE)
-
-    inherit_stdio: flags.boolean({
+    stdio: flags.boolean({
       default: false,
       description: 'Whether to print std output or accept input',
     }),
 
-    mute: flags.boolean({
-      default: false,
-      description: 'Whether to print Retry information',
-    }),
-
-    interval: flags.integer({
-      char: 'i',
-      default: 1000,
-      description: 'Retry interval in milliseconds',
-    }),
-
-    max_retry: flags.integer({
-      char: 'm',
-      default: 12,
-      description: 'Max retry limit.',
-    }),
+    ...common_flag,
   }
 
   static args: Parser.args.IArg[] = [
     {
       name: 'command',
       required: true,
+      description: 'Command to wait (retry to run)',
     },
   ]
 
-  opt = {
-    retry: 0,
-  }
-
   async run() {
-    const { args, flags } = this.parse(Cmd)
-
+    const { args } = this.parsed = this.parse(Cmd)
     const cmd = args.command
-    print_info('Wait started.')
+    this.prepare_opts()
 
-    if (!cmd) {
-      return print_error(`Please pass a command to wait: $0 '<COMMAND>' ...`)
-    }
-
-    const state: T_waiter_state = {
-      interval: flags.interval,
-      max_retry: flags.max_retry,
-      count: 0,
-    }
-
-    await waiter(async () => {
-      let opt
-
-      if (!flags.inherit_stdio) {
-        opt = { stdio: [ 'inherit', 'ignore', 'ignore' ] }
-      }
-
-      const r = await command(cmd, opt)
-
-      if (r.code) {
-        throw new Error('Not fulfilled')
+    const r = await waiter(async () => {
+      const r2 = await command(cmd, this.opt_command, this.opt_spawn)
+      if (r2.code) {
+        throw new Error()
       } else {
         return true
       }
-    }, state)
+    }, this.state_waiter)
+
+    const code = r ? 0 : 1
+    this.exit(code)
   }
 }
