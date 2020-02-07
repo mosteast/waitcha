@@ -31,6 +31,7 @@ USAGE
 * [`waitcha cmd COMMAND`](#waitcha-cmd-command)
 * [`waitcha help [COMMAND]`](#waitcha-help-command)
 * [`waitcha http URL`](#waitcha-http-url)
+* [`waitcha ping [FILE]`](#waitcha-ping-file)
 
 ## `waitcha cmd COMMAND`
 
@@ -113,4 +114,20 @@ OPTIONS
 ```
 
 _See code: [src/commands/http.ts](https://github.com/mosteast/waitcha/blob/v0.1.1/src/commands/http.ts)_
+
+## `waitcha ping [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ waitcha ping [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/ping.ts](https://github.com/mosteast/waitcha/blob/v0.1.1/src/commands/ping.ts)_
 <!-- commandsstop -->
