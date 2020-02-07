@@ -19,7 +19,7 @@ $ npm install -g waitcha
 $ waitcha COMMAND
 running command...
 $ waitcha (-v|--version|version)
-waitcha/0.0.0 darwin-x64 node-v12.14.0
+waitcha/0.1.0 darwin-x64 node-v12.14.0
 $ waitcha --help [COMMAND]
 USAGE
   $ waitcha COMMAND
@@ -28,28 +28,26 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`waitcha hello [FILE]`](#waitcha-hello-file)
+* [`waitcha cmd <COMMAND>`](#waitcha-cmd-command)
 * [`waitcha help [COMMAND]`](#waitcha-help-command)
 
-## `waitcha hello [FILE]`
+## `waitcha cmd <COMMAND>`
 
-describe the command here
+wait for a command to fulfill
 
 ```
 USAGE
-  $ waitcha hello [FILE]
+  $ waitcha cmd <COMMAND>
+  $ waitcha cmd <COMMAND> [OPTIONS]
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ waitcha hello
-  hello world from ./src/hello.ts!
+  -h, --help                 show CLI help
+  -i, --interval=interval    [default: 1000] Retry interval in milliseconds
+  -m, --max_retry=max_retry  [default: 12] Max retry limit.
+  -n, --name=name            name to print
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/mosteast/waitcha/blob/v0.0.0/src/commands/hello.ts)_
+_See code: [src/commands/cmd.ts](https://github.com/mosteast/waitcha/blob/v0.1.0/src/commands/cmd.ts)_
 
 ## `waitcha help [COMMAND]`
 
