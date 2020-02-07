@@ -92,7 +92,7 @@ export default class Http extends Base {
     const url = args.url
     this.prepare_opts()
 
-    const r = await waiter(async () => {
+    waiter(async () => {
       return new Promise<void>(async (resolve, reject) => {
         let res, ok = true
         res = await fetch(url).catch(e => {
@@ -238,9 +238,7 @@ export default class Http extends Base {
       })
 
     }, this.state_waiter)
-
-    const code = r ? 0 : 1
-    this.exit(code)
+      .catch(e => process.exit(1))
   }
 }
 

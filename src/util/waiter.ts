@@ -5,7 +5,7 @@ import {
   print_verbose,
 } from './printer'
 
-export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Promise<boolean> {
+export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Promise<void> {
   state = {
     count: 0,
     interval: 1000,
@@ -23,7 +23,7 @@ export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Pro
 
   if (!state.forever && state.count > state.max_retry) {
     print_error(`Wait failed after retried ${ state.max_retry } times.`)
-    return false
+    return Promise.reject()
   }
 
   if (state.count > 1 && !state.mute) {print_verbose(`Retry: ${ state.count }`)}
@@ -32,11 +32,11 @@ export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Pro
     await fn()
   } catch (e) {
     await delay(state?.interval)
-    return await waiter(fn, state)
+    await waiter(fn, state)
   }
 
   print_success('Wait fulfilled.')
-  return true
+  return Promise.resolve()
 }
 
 function delay(t: number, value?: any) {
