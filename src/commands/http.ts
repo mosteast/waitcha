@@ -94,7 +94,7 @@ export default class Http extends Base {
 
     const r = await waiter(async () => {
       return new Promise<void>(async (resolve, reject) => {
-        const res = await fetch(url)
+        const res = await fetch(url).catch()
         let ok = res.ok
         const text = await res.text()
         const range = flags.debug_text_range?.split(':').map(it => parseInt(it))
