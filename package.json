@@ -1,7 +1,7 @@
 {
   "name": "waitcha",
   "description": "Just want to wait everything in every way",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "kev",
   "bin": {
     "waitcha": "./bin/run"
