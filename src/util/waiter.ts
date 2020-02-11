@@ -15,18 +15,18 @@ export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Pro
     ...state,
   }
 
-  if (state.count === 0) {
+  if (state.count === 1) {
     print_info('Wait started.')
   }
 
   state.count++
 
   if (!state.forever && state.count > state.max_retry) {
-    print_error(`Wait failed after retried ${ state.max_retry } times.`)
+    print_error(`Wait failed after retried ${state.max_retry} times.`)
     return Promise.reject()
   }
 
-  if (state.count > 1 && !state.mute) {print_verbose(`Retry: ${ state.count }`)}
+  if (state.count > 1 && !state.mute) {print_verbose(`Retry: ${state.count}`)}
 
   try {
     await fn()
@@ -36,7 +36,9 @@ export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Pro
     return
   }
 
-  print_success('Wait fulfilled.')
+  if (state.count === 1) {
+    print_success('Wait fulfilled.')
+  }
   return Promise.resolve()
 }
 
