@@ -36,9 +36,10 @@ export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Pro
     return
   }
 
-  if (state.count === 1) {
+  if (state.count > 1) {
     print_success('Wait fulfilled.')
   }
+
   return Promise.resolve()
 }
 
