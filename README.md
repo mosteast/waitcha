@@ -19,7 +19,7 @@ $ npm install -g waitcha
 $ waitcha COMMAND
 running command...
 $ waitcha (-v|--version|version)
-waitcha/0.1.6 darwin-x64 node-v12.15.0
+waitcha/0.1.6 darwin-x64 node-v12.16.2
 $ waitcha --help [COMMAND]
 USAGE
   $ waitcha COMMAND

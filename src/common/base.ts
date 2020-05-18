@@ -1,5 +1,5 @@
 import { Command } from '@oclif/command'
-import { T_waiter_state } from '../util/waiter'
+import { T_waiter_state } from '../util/wait'
 import { T_command_opt } from '@mosteast/command/src/command'
 import { SpawnOptions } from 'child_process'
 

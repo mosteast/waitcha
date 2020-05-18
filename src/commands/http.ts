@@ -1,5 +1,5 @@
 import { flags } from '@oclif/command'
-import { waiter } from '../util/waiter'
+import { wait } from '../util/wait'
 import { common_flag } from '../common/flag'
 import * as Parser from '@oclif/parser'
 import { Base } from '../common/base'
@@ -92,7 +92,7 @@ export default class Http extends Base {
     const url = args.url
     this.prepare_opts()
 
-    await waiter(async () => {
+    await wait(async () => {
       return new Promise<void>(async (resolve, reject) => {
         let res, ok = true
         res = await fetch(url).catch(e => {

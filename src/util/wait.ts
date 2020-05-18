@@ -5,7 +5,7 @@ import {
   print_verbose,
 } from './printer'
 
-export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Promise<void> {
+export async function wait(fn: () => Promise<any>, state: T_waiter_state): Promise<void> {
   state = {
     count: 0,
     interval: 1000,
@@ -32,7 +32,7 @@ export async function waiter(fn: () => Promise<any>, state: T_waiter_state): Pro
     await fn()
   } catch (e) {
     await delay(state?.interval)
-    await waiter(fn, state)
+    await wait(fn, state)
     return
   }
 

@@ -1,6 +1,6 @@
 import { flags } from '@oclif/command'
 import * as Parser from '@oclif/parser'
-import { waiter } from '../util/waiter'
+import { wait } from '../util/wait'
 import { command } from '@mosteast/command'
 import { common_flag } from '../common/flag'
 import { Base } from '../common/base'
@@ -37,7 +37,7 @@ export default class Cmd extends Base {
     const cmd = args.command
     this.prepare_opts()
 
-    await waiter(async () => {
+    await wait(async () => {
       const r2 = await command(cmd, this.opt_command, this.opt_spawn)
       if (r2.code) {
         throw new Error()
