@@ -19,7 +19,7 @@ $ npm install -g waitcha
 $ waitcha COMMAND
 running command...
 $ waitcha (-v|--version|version)
-waitcha/0.1.6 darwin-x64 node-v12.16.2
+waitcha/0.1.7 darwin-x64 node-v12.16.2
 $ waitcha --help [COMMAND]
 USAGE
   $ waitcha COMMAND
@@ -52,7 +52,7 @@ OPTIONS
   --stdio                    Whether to print std output or accept input
 ```
 
-_See code: [src/commands/cmd.ts](https://github.com/mosteast/waitcha/blob/v0.1.6/src/commands/cmd.ts)_
+_See code: [src/commands/cmd.ts](https://github.com/mosteast/waitcha/blob/v0.1.7/src/commands/cmd.ts)_
 
 ## `waitcha help [COMMAND]`
 
@@ -112,5 +112,5 @@ OPTIONS
   --text_match=text_match              Match body text with regular express: ".+google.+"
 ```
 
-_See code: [src/commands/http.ts](https://github.com/mosteast/waitcha/blob/v0.1.6/src/commands/http.ts)_
+_See code: [src/commands/http.ts](https://github.com/mosteast/waitcha/blob/v0.1.7/src/commands/http.ts)_
 <!-- commandsstop -->
