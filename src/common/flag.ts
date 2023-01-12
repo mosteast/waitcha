@@ -1,4 +1,4 @@
-import { flags } from '@oclif/command'
+import { flags } from '@oclif/command';
 
 export const common_flag: flags.Input<any> = {
   help: flags.help({ char: 'h' }),
@@ -24,4 +24,4 @@ export const common_flag: flags.Input<any> = {
     default: 12,
     description: 'Max retry limit',
   }),
-}
+};
