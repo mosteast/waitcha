@@ -18,7 +18,7 @@
     "shelljs": "^0.8.3",
     "tslib": "^1.10.0",
     "yargs": "^15.1.0",
-    "yargs-parser": "^16.1.0"
+    "yargs-parser": "^18.1.1"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",
