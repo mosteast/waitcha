@@ -1,36 +1,36 @@
-import * as chalk from 'chalk';
+import chalk from "chalk";
 
 const printer = {
   verbose(a, ...args) {
-    if (typeof a === 'object') {
+    if (typeof a === "object") {
       console.info(a, ...args);
     } else {
       console.log(chalk.gray(a, ...args));
     }
   },
   success(a, ...args) {
-    if (typeof a === 'object') {
+    if (typeof a === "object") {
       console.info(a, ...args);
     } else {
       console.info(chalk.green(a, ...args));
     }
   },
   info(a, ...args) {
-    if (typeof a === 'object') {
+    if (typeof a === "object") {
       console.info(a, ...args);
     } else {
       console.info(chalk.blueBright(a, ...args));
     }
   },
   warn(a, ...args) {
-    if (typeof a === 'object') {
+    if (typeof a === "object") {
       console.warn(a, ...args);
     } else {
       console.info(chalk.yellowBright(a, ...args));
     }
   },
   error(a, ...args) {
-    if (typeof a === 'object') {
+    if (typeof a === "object") {
       console.error(a, ...args);
     } else {
       console.info(chalk.red(a, ...args));

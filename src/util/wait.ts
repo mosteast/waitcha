@@ -3,20 +3,23 @@ import {
   print_info,
   print_success,
   print_verbose,
-} from './printer';
+} from "./printer";
 
-export async function wait(fn: () => Promise<any>, state: T_waiter_state): Promise<void> {
+export async function wait(
+  fn: () => Promise<any>,
+  state: T_waiter_state,
+): Promise<void> {
   state = {
     count: 0,
     interval: 1000,
     max_retry: 12,
     mute: false,
     forever: false,
-    ...state,
+    ...(state as Partial<T_waiter_state>),
   };
 
   if (state.count === 1) {
-    print_info('Wait started.');
+    print_info("Wait started.");
   }
 
   state.count++;
@@ -26,7 +29,9 @@ export async function wait(fn: () => Promise<any>, state: T_waiter_state): Promi
     return Promise.reject();
   }
 
-  if (state.count > 1 && !state.mute) {print_verbose(`Retry: ${state.count}`);}
+  if (state.count > 1 && !state.mute) {
+    print_verbose(`Retry: ${state.count}`);
+  }
 
   try {
     await fn();
@@ -37,7 +42,7 @@ export async function wait(fn: () => Promise<any>, state: T_waiter_state): Promi
   }
 
   if (state.count > 1) {
-    print_success('Wait fulfilled.');
+    print_success("Wait fulfilled.");
   }
 
   return Promise.resolve();
@@ -50,9 +55,9 @@ function delay(t: number, value?: any) {
 }
 
 export interface T_waiter_state {
-  interval: number,
-  max_retry: number,
-  count: number,
-  mute?: boolean
-  forever?: boolean
+  interval: number;
+  max_retry: number;
+  count: number;
+  mute?: boolean;
+  forever?: boolean;
 }

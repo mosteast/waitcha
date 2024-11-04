@@ -7,9 +7,9 @@
     "rootDir": "src",
     "strict": true,
     "target": "es2017",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "skipLibCheck": true
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
