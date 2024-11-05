@@ -9,6 +9,7 @@ Just want to wait everything in every way
 
 <!-- toc -->
 
+- [waitcha](#waitcha)
 - [Usage](#usage)
 - [Commands](#commands)
 <!-- tocstop -->
@@ -22,7 +23,7 @@ $ npm install -g waitcha
 $ waitcha COMMAND
 running command...
 $ waitcha (-v|--version|version)
-waitcha/0.2.2 darwin-x64 node-v22.11.0
+waitcha/0.2.3 darwin-x64 node-v22.11.0
 $ waitcha --help [COMMAND]
 USAGE
   $ waitcha COMMAND
